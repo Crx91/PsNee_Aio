@@ -15,9 +15,9 @@
 // Coded using Ch32fun library! https://github.com/cnlohr/ch32fun
 //
 // Changelog:
-// v.1x -> Alpha
-// v2.f -> First stable release
-// v2.1 -> Little code & comnts refactoring
+// v.1x -> Alpha.
+// v2.f -> First stable release.
+// v2.1 -> Little code & comnts refactoring, decreased timeout from 20sec to 10sec.
 //
 //
 // PINOUT for wch ch32v003f4p6:

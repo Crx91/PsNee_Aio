@@ -1,6 +1,6 @@
 #pragma once
 
-void Scph_102()
+void Scph_102() // Onechip SCPH-102 Bios patching method 
 {
   LED_SendColour(200, 10, 200); // Send VIOLET
     
@@ -19,7 +19,7 @@ void Scph_102()
   GPIOD->CFGLR &= ~(0xF << (4 * 3));
   GPIOD->CFGLR |= (3 | 0) << (4 * 3);
   //------------------------------------------------------------------
-  GPIOD->BSHR = (1 << 16 + 3); // Bios_D2 Low // store a low
+  GPIOD->BSHR = (1 << 16 + 3); // Bios_D2 Low
   // D2 = output. Drags line low now
 
   Delay_Us(5); 
@@ -40,8 +40,8 @@ void bios_fail() // BIOS fail condition
 {
   while (1)
   {
-    // INFINITE LOOP FOR UNIMPLEMENTED bios_mode
+    // Infinite loop for unimplemented bios_mode
     LED_SendColour(200, 0, 0);
-    Delay_Ms(100); // Without, MCU loops to quickly and glitch LED_SendColour function
+    Delay_Ms(100); // Without, MCU loops to quickly and glitches LED_SendColour function
   }
 }

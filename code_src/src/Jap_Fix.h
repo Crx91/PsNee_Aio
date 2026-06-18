@@ -1,6 +1,6 @@
 #pragma once
 
-#define Timeout 20000
+#define Timeout 10000 //20000
 
 uint8_t Jready = 0;
 volatile uint8_t Jfix = 0;

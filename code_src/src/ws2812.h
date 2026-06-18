@@ -1,4 +1,3 @@
-// Send a single bit using the GD pinwiggle protocol.
 #pragma once
 
 void LED_SendBit(uint8_t bit)
