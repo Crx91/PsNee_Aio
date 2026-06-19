@@ -1,6 +1,14 @@
 #pragma once
 
-#define Timeout 10000 //20000
+//---------------------------------------------------------------
+// Japanese BIOS patching lib v1.1
+//
+// - The fix will auto-disable if not triggered before Timeot var 
+//   after the first region code patch injection
+//---------------------------------------------------------------
+
+
+#define Timeout 10000 // Timeout var.
 
 uint8_t Jready = 0;
 volatile uint8_t Jfix = 0;
@@ -8,7 +16,7 @@ volatile uint8_t Trigger = 0;
 volatile uint32_t systick_millis;
 
 uint8_t led_r = 0;
-uint8_t led_g =0;
+uint8_t led_g = 0;
 uint8_t led_b = 0;
 
 void systick_init(void)
@@ -37,41 +45,52 @@ void systick_init(void)
 
 void Jfix_Injection()
 {
-  Delay_Us(100);
-
-  LED_SendColour(10, 200, 200); // Send Light Blue
-
-  while ((GPIOA->INDR >> (1 & 0xf) & 1))
-    ; // While Bios_CE is High wait and nothing
-
-  if (!(GPIOA->INDR >> (1 & 0xf) & 1)) // If Bios_CE is Low
+  switch (Jfix)
   {
-    // PD3 -> Bios_D2 Output ------------------------------------------------
-    GPIOD->CFGLR &= ~(0xF << (4 * 3));
-    GPIOD->CFGLR |= (3 | 0) << (4 * 3);
-    //------------------------------------------------------------------
-    GPIOD->BSHR = (1 << 16 + 3); // PC3 -> Bios_D2 = output. Drags line low now
-  }
+  case 0:
+    // Timeout reached, patch aborted
+    LED_SendColour(255, 0, 0);
+    Delay_Ms(300);
+    break;
+  case 1:
+    // Begin Bios Jap patching
+    NVIC_DisableIRQ(SysTick_IRQn); // Disable Timer
+    
+    Delay_Us(100);
 
-  /*
-  while ((GPIOD->INDR >> (4 & 0xf) & 1));
-  if (GPIOD->INDR >> (4 & 0xf) & 1) // Bios_A18 == 1
-{
-  Delay_Us(1);
+    LED_SendColour(10, 200, 200); // Send Light Blue
+
+    while ((GPIOA->INDR >> (1 & 0xf) & 1))
+      ; // While Bios_CE is High wait and do nothing
+
+    if (!(GPIOA->INDR >> (1 & 0xf) & 1)) // If Bios_CE is Low
+    {
+      // PD3 -> Bios_D2 Output ------------------------------------------------
+      GPIOD->CFGLR &= ~(0xF << (4 * 3));
+      GPIOD->CFGLR |= (3 | 0) << (4 * 3);
+      //------------------------------------------------------------------
+      GPIOD->BSHR = (1 << 16 + 3); // PC3 -> Bios_D2 == 0
+    }
+
+    /*
+    while ((GPIOD->INDR >> (4 & 0xf) & 1));
+    if (GPIOD->INDR >> (4 & 0xf) & 1) // Bios_A18 == 1
+    {
+    Delay_Us(1);
+      // PD3 <- Bios_D2 Input ------------------------------------------------
+    GPIOD->CFGLR = (GPIOD->CFGLR & (~(0xf << (4 * (3 & 0xf))))) | (4 << (4 * (3 & 0xf)));
+    //-----------------------------------------------------------------------
+    }
+   */
+
+    Delay_Us(900);
+
     // PD3 <- Bios_D2 Input ------------------------------------------------
-  GPIOD->CFGLR = (GPIOD->CFGLR & (~(0xf << (4 * (3 & 0xf))))) | (4 << (4 * (3 & 0xf)));
-  //-----------------------------------------------------------------------
-}
- */
+    GPIOD->CFGLR = (GPIOD->CFGLR & (~(0xf << (4 * (3 & 0xf))))) | (4 << (4 * (3 & 0xf)));
+    //-----------------------------------------------------------------------
 
-  Delay_Us(900);
-
-  // PD3 <- Bios_D2 Input ------------------------------------------------
-  GPIOD->CFGLR = (GPIOD->CFGLR & (~(0xf << (4 * (3 & 0xf))))) | (4 << (4 * (3 & 0xf)));
-  //-----------------------------------------------------------------------
-  
-  Jfix = 0; // Patch done
-
+    Jfix = 0; // Patch done
+  }
   LED_SendColour(0, 0, 0); // Send BLACK
 }
 
@@ -82,8 +101,7 @@ void JAP_fix()
   case 0:
     // SPEED INTERRUPT ENABLE
     NVIC_EnableIRQ(EXTI7_0_IRQn);
-    // Start Timer with timeout of 20sec.
-    //systick_millis = 0; // Not needed anymore
+    // Start Timer with timeout of 10sec.
     systick_init();
     break;
   case 1:

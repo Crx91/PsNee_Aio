@@ -1,5 +1,11 @@
 #pragma once
 
+//---------------------------------------------------------------
+// SCPH-102 BIOS patching lib v1
+//
+// - Onechip like patching method for SCPH-102 BIOSes 
+//---------------------------------------------------------------
+
 void Scph_102() // Onechip SCPH-102 Bios patching method 
 {
   LED_SendColour(200, 10, 200); // Send VIOLET

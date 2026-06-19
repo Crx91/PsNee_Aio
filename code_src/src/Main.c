@@ -15,11 +15,13 @@
 // Coded using Ch32fun library! https://github.com/cnlohr/ch32fun
 //
 // Changelog:
-// v.1x -> Alpha.
-// v2.f -> First stable release.
-// v2.1 -> Little code & comnts refactoring, decreased timeout from 20sec to 10sec.
+// v.1xx -> Alpha.
+// v2.0f -> First stable release.
+// v2.10 -> Little code & comnts refactoring.
+//          Fixed nasty systick bug.
+//          Decreased Jfix Timeout from 20sec to 10sec. 
 //
-//
+// ---------------------------------------------------------------------------------------------------
 // PINOUT for wch ch32v003f4p6:
 /*
                    ___ ___
@@ -64,7 +66,7 @@ bios_Bit table:
    L  |   H  |   L  | FREE      |   5
    L  |   L  |   H  | FREE      |   6
    L  |   L  |   L  | FREE      |   7
-   */
+*/
 
 
 #define bits_delay 4000     // 250 bits/s (microseconds)
@@ -203,7 +205,7 @@ void Modules_set()
     break;
   }
 
-  // Sets done, put pinmode to input now.
+  // Sets done, put x_bitsx pinmode to input now.
   funPinMode(PC0, GPIO_CNF_IN_FLOATING);
   funPinMode(PC1, GPIO_CNF_IN_FLOATING);
   funPinMode(PC2, GPIO_CNF_IN_FLOATING);
@@ -250,6 +252,7 @@ void logic_SCPH_5903(uint8_t isDataSector)
     hysteresis--; // Patterns stop matching
   }
 }
+
 /******************************************************************************************
  * Heuristic logic for standard PlayStation hardware (Non-VCD models).
  *
@@ -262,7 +265,6 @@ void logic_SCPH_5903(uint8_t isDataSector)
  *  isDataSector Boolean flag: true if the current sector is a data sector.
 
 ******************************************************************************************/
-
 void logic_Standard(uint8_t isDataSector)
 {
   // Detect specific Lead-In patterns
@@ -570,9 +572,8 @@ int main()
     {
       JAP_fix();
     }
-    //--------------------------------------
-    //__disable_irq(); // start critical section
-
+    //----------------------------------------
+    
     do
     {
       for (bitpos = 0; bitpos < 8; bitpos++)
@@ -610,8 +611,6 @@ int main()
 
     while (scpos < 12); // Repeat for all 12 bytes
 
-    //__enable_irq(); // End critical section
-
     //************************************************************************
     // Check if read head is in wobble area
     // We only want to unlock game discs (0x41) and only if the read head is in the outer TOC area.
@@ -642,7 +641,7 @@ int main()
       funPinMode(PD6, GPIO_Speed_30MHz | GPIO_CNF_OUT_PP); // PD6 -> Data Output
       funDigitalWrite(PD6, 0);                             // PD6 Data Low
 
-      if (!wfck_mode) // If wfck_mode is fals (oldmode)
+      if (!wfck_mode) // If wfck_mode is false (oldmode)
       {
         funPinMode(PD5, GPIO_Speed_30MHz | GPIO_CNF_OUT_PP); // PD5 -> Wfck Output
         funDigitalWrite(PD5, 0);                             // PD5 Wfck Low
