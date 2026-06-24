@@ -5,7 +5,9 @@ Unleash the power of your Ps1!
 Coded for the "10 cent" MCU CH32V003 using the powerful ch32fun development environment,                                                                                         
 PSNee_Aio is the ultimate mod for the Playstation 1 console!
 
-![PCB3d](https://github.com/Crx91/PsNee_Aio/blob/main/PCB/3D_ch32v003f4p6.jpg)
+32v003f4p6  PCB 3d           |  cd32v003f4u6 PCB 3d
+:-------------------------:|:-------------------------:
+![PCB3dP6](https://github.com/Crx91/PsNee_Aio/blob/main/PCB/3D_ch32v003f4p6.jpg) | ![PCB3dU6](https://github.com/Crx91/PsNee_Aio/blob/main/PCB/3D_ch32v003f4u6.jpg)
 
 Features:
 - Fully compatible and stealth with all PS1 models and BIOS!
@@ -24,7 +26,7 @@ Features:
 
 ## Supported MCU:
 -	Ch32v003f4p6
--	Ch32v003f4u6 (PCB and schematics not available at the moment)
+-	Ch32v003f4u6
 
 ## Prerequisites:
 - [WCH-LinkE](https://github.com/carmax91/PsNee-CH32V003/blob/main/Imgs/WCH-LinkEPrg.jpg) programmer (pay attention to the E).
@@ -34,7 +36,7 @@ Features:
 -	Download this repository.
 -	Follow [PsNee_Aio Wiki](https://github.com/Crx91/PsNee_Aio/wiki) or [PsNee_Aio.pdf](https://github.com/Crx91/PsNee_Aio/blob/main/PsNee_Aio.pdf) instructions.
 
-In the [PCB](https://github.com/Crx91/PsNee_Aio/tree/main/PCB) folder, you can find the Gerber file and schematic for the Ch32v003f4p6 variant.
+In the [PCB](https://github.com/Crx91/PsNee_Aio/tree/main/PCB) folder, you can find the Gerber file and schematic for the Ch32v003f4p6 and Ch32v003f4u6 variant.
 
 ## Thanks to:
 ramapcsx2, kalymos, SpenceKonde, oldcrow, mayumi, arduino community, ch32fun community, Infrid and lots of people that can't remember now.
