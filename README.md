@@ -5,7 +5,7 @@ Unleash the power of your Ps1!
 Coded for the "10 cent" MCU CH32V003 using the powerful ch32fun development environment,                                                                                         
 PSNee_Aio is the ultimate mod for the Playstation 1 console!
 
-32v003f4p6  PCB 3d           |  cd32v003f4u6 PCB 3d
+ch32v003f4p6  PCB 3d           |  ch32v003f4u6 PCB 3d
 :-------------------------:|:-------------------------:
 ![PCB3dP6](https://github.com/Crx91/PsNee_Aio/blob/main/PCB/3D_ch32v003f4p6.jpg) | ![PCB3dU6](https://github.com/Crx91/PsNee_Aio/blob/main/PCB/3D_ch32v003f4u6.jpg)
 
@@ -25,8 +25,8 @@ Features:
 - Jap_Bios_Unlocker code made by Crx91 (me).
 
 ## Supported MCU:
--	Ch32v003f4p6
--	Ch32v003f4u6
+-	Ch32v003f4p6 (TSSOP20 package).
+-	Ch32v003f4u6 (QFN-20 package).
 
 ## Prerequisites:
 - [WCH-LinkE](https://github.com/carmax91/PsNee-CH32V003/blob/main/Imgs/WCH-LinkEPrg.jpg) programmer (pay attention to the E).
